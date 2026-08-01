@@ -1,0 +1,82 @@
+---
+// Blog-Übersicht – Balkon-Ratgeber
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    slug: 'balkon-bepflanzen-fuer-anfaenger',
+    title: 'Balkon bepflanzen für Anfänger – Schritt für Schritt',
+    excerpt: 'Du möchtest deinen Balkon in eine grüne Oase verwandeln? Mit dieser Schritt-für-Schritt-Anleitung gelingt dir der Start garantiert – von der Planung bis zur ersten Ernte.',
+    category: 'Anfänger',
+    date: '15. Juli 2026',
+    emoji: '🌱',
+  },
+  {
+    slug: 'die-7-unkaputtbaren-balkonpflanzen',
+    title: 'Die 7 unkaputtbaren Balkonpflanzen für Anfänger',
+    excerpt: 'Nicht jeder hat einen grünen Daumen – und das ist okay! Diese 7 Pflanzen verzeihen fast jeden Pflegefehler und machen deinen Balkon trotzdem wunderschön.',
+    category: 'Pflanzenwissen',
+    date: '10. Juli 2026',
+    emoji: '🌿',
+  },
+  {
+    slug: 'welche-kraeuter-auf-dem-balkon',
+    title: 'Welche Kräuter auf dem Balkon? Die besten 10',
+    excerpt: 'Frische Kräuter direkt vom Balkon – nichts schmeckt besser! Entdecke die 10 besten Kräuter für den Anbau in Töpfen und Kästen.',
+    category: 'Kräuter',
+    date: '8. Juli 2026',
+    emoji: '🌿',
+  },
+  {
+    slug: 'gemuese-auf-dem-balkon-anbauen',
+    title: 'Gemüse auf dem Balkon anbauen – 10 Sorten',
+    excerpt: 'Auch ohne Garten kannst du eigenes Gemüse ernten. Diese 10 Sorten wachsen prächtig auf dem Balkon und liefern reiche Ernte.',
+    category: 'Gemüse',
+    date: '3. Juli 2026',
+    emoji: '🍅',
+  },
+  {
+    slug: 'balkonpflanzen-richtig-giessen',
+    title: 'Balkonpflanzen richtig gießen – Der ultimative Guide',
+    excerpt: 'Gießen klingt einfach, aber viele machen es falsch. Wie viel Wasser brauchen deine Pflanzen wirklich? Der ultimative Guide mit allen Tricks.',
+    category: 'Pflege',
+    date: '28. Juni 2026',
+    emoji: '💧',
+  },
+  {
+    slug: 'tomaten-auf-dem-balkon-pflanzen',
+    title: 'Tomaten auf dem Balkon pflanzen – Komplettanleitung',
+    excerpt: 'Tomaten sind der Klassiker für den Balkongarten. Von der Aussaat über die Pflege bis zur Ernte – hier kommt die vollständige Anleitung.',
+    category: 'Gemüse',
+    date: '20. Juni 2026',
+    emoji: '🍅',
+  },
+];
+---
+
+<BaseLayout
+  title="Balkon-Ratgeber"
+  description="Umfassender Ratgeber rund ums Balkon bepflanzen: Anfänger-Tipps, Kräuter, Gemüse, Pflege und Jahreszeiten – für deinen grünen Balkon in Deutschland."
+  keywords="Balkon Ratgeber, Balkon bepflanzen Tipps, Balkongarten Blog, Balkonpflanzen Ratgeber"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title" style="margin-bottom: 3rem;">Balkon-Ratgeber 🌱</h1>
+      <div class="blog-grid">
+        {posts.map((post) => (
+          <article class="blog-card">
+            <div class="blog-card-img">{post.emoji}</div>
+            <div class="blog-card-body">
+              <span class="blog-card-category">{post.category}</span>
+              <h2 class="blog-card-title">
+                <a href={`/blog/${post.slug}/`}>{post.title}</a>
+              </h2>
+              <p class="blog-card-excerpt">{post.excerpt}</p>
+              <span class="blog-card-date">📅 {post.date}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

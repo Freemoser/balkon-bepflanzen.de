@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  ogImage?: string;
+}
+
+const { title, description, keywords, ogImage } = Astro.props;
+const siteUrl = 'https://balkon-bepflanzen.de';
+---
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title} | Balkon bepflanzen</title>
+    {description && <meta name="description" content={description} />}
+    {keywords && <meta name="keywords" content={keywords} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Balkon bepflanzen" />
+    <meta property="og:title" content={`${title} | Balkon bepflanzen`} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={Astro.url.href} />
+    {ogImage ? <meta property="og:image" content={ogImage} /> : <meta property="og:image" content={`${siteUrl}/favicon.svg`} />}
+
+    <!-- Google Fonts: Inter + Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+    <!-- Global Styles are imported via Astro frontmatter -->
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="/" class="logo">🌿 Balkon bepflanzen</a>
+        <button class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="nav-overlay" id="navOverlay"></div>
+        <nav class="nav" id="mainNav">
+          <ul class="nav-list" id="navList">
+            <li><a href="/" class="nav-link">Startseite</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/ueber-mich/" class="nav-link">Über mich</a></li>
+            <li><a href="/impressum/" class="nav-link">Impressum</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/impressum/">Impressum</a>
+          <a href="/datenschutz/">Datenschutz</a>
+        </div>
+        <p class="footer-copy">© 2026 Balkon bepflanzen</p>
+      </div>
+    </footer>
+
+    <!-- Mobile Nav Toggle Script -->
+    <script>
+      const hamburger = document.getElementById('hamburger');
+      const navList = document.getElementById('navList');
+      const navOverlay = document.getElementById('navOverlay');
+
+      if (hamburger && navList && navOverlay) {
+        function toggleMenu() {
+          const isOpen = navList.classList.toggle('open');
+          hamburger.classList.toggle('active');
+          navOverlay.classList.toggle('open');
+          hamburger.setAttribute('aria-expanded', isOpen);
+          document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        navOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu on resize above mobile breakpoint
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            navList.classList.remove('open');
+            hamburger.classList.remove('active');
+            navOverlay.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+---
+// Homepage – Balkon bepflanzen
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const latestPosts = [
+  {
+    slug: 'balkon-bepflanzen-fuer-anfaenger',
+    title: 'Balkon bepflanzen für Anfänger – Schritt für Schritt',
+    excerpt: 'Du möchtest deinen Balkon in eine grüne Oase verwandeln, weißt aber nicht, wo du anfangen sollst? Keine Sorge – mit dieser Schritt-für-Schritt-Anleitung gelingt dir der Start garantiert.',
+    category: 'Anfänger',
+    date: '15. Juli 2026',
+    emoji: '🌱',
+  },
+  {
+    slug: 'die-7-unkaputtbaren-balkonpflanzen',
+    title: 'Die 7 unkaputtbaren Balkonpflanzen für Anfänger',
+    excerpt: 'Nicht jeder hat einen grünen Daumen. Diese 7 Pflanzen verzeihen fast jeden Pflegefehler und machen deinen Balkon trotzdem wunderschön.',
+    category: 'Pflanzenwissen',
+    date: '10. Juli 2026',
+    emoji: '🌿',
+  },
+  {
+    slug: 'balkonpflanzen-richtig-giessen',
+    title: 'Balkonpflanzen richtig gießen – Der ultimative Guide',
+    excerpt: 'Gießen klingt einfach, aber viele machen es falsch. Lerne, wie du deine Balkonpflanzen optimal mit Wasser versorgst.',
+    category: 'Pflege',
+    date: '5. Juli 2026',
+    emoji: '💧',
+  },
+];
+---
+
+<BaseLayout
+  title="Balkon bepflanzen – Tipps & Ratgeber für Balkongärtner"
+  description="Praktische Tipps, Tricks und Ratgeber für Balkongärtner in Deutschland. Von Anfänger bis Profi – mach deinen Balkon zur grünen Oase! 🌿"
+  keywords="Balkon bepflanzen, Balkongarten, Balkonpflanzen, Kräuter auf dem Balkon, Gemüse auf dem Balkon, Balkongärtner"
+>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Dein Balkon – Dein Paradies 🌿</h1>
+      <p>Tipps, Tricks und Ratgeber für Balkongärtner – von Anfänger bis Profi</p>
+      <a href="/blog/" class="btn btn-outline">Zum Ratgeber →</a>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">So startest du durch</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">🌱</div>
+          <h3>Für Anfänger</h3>
+          <p>Noch nie eine Pflanze gepflegt? Kein Problem! Unsere Anfänger-Guides erklären dir Schritt für Schritt, wie du deinen Balkon in ein grünes Paradies verwandelst.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3>Pflanzenwissen</h3>
+          <p>Von Kräutern über Gemüse bis zu Zierpflanzen – erfahre alles über die richtige Auswahl, Pflege und Standortbedingungen für deine Balkonpflanzen.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🌸</div>
+          <h3>Jahreszeiten</h3>
+          <p>Jede Jahreszeit bringt neue Aufgaben und Chancen. Mit unseren Saison-Tipps blüht dein Balkon von Frühling bis Herbst – und sogar im Winter.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  <section class="section" style="background: var(--white);">
+    <div class="container">
+      <h2 class="section-title">Neueste Beiträge</h2>
+      <div class="blog-grid">
+        {latestPosts.map((post) => (
+          <article class="blog-card">
+            <div class="blog-card-img">{post.emoji}</div>
+            <div class="blog-card-body">
+              <span class="blog-card-category">{post.category}</span>
+              <h3 class="blog-card-title">
+                <a href={`/blog/${post.slug}/`}>{post.title}</a>
+              </h3>
+              <p class="blog-card-excerpt">{post.excerpt}</p>
+              <span class="blog-card-date">📅 {post.date}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="/blog/" class="btn btn-secondary">Alle Beiträge anzeigen →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Bereit für deinen Balkongarten?</h2>
+      <p>Starte noch heute mit den richtigen Tipps und Tricks. Egal ob Kräuter, Gemüse oder Blumen – bei uns findest du alles, was du brauchst.</p>
+      <a href="/blog/balkon-bepflanzen-fuer-anfaenger/" class="btn btn-primary">Zum Anfänger-Guide →</a>
+    </div>
+  </section>
+</BaseLayout>
