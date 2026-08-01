@@ -1,0 +1,31 @@
+---
+import type { BlogPost } from '../utils/blog';
+import { formatDate, slugFromId } from '../utils/blog';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const slug = slugFromId(post.id);
+const href = `${base}blog/${slug}/`;
+const tag = post.data.tags[0] || 'Ratgeber';
+---
+
+<a href={href} class="blog-card">
+  <div class="blog-card-image" aria-hidden="true">
+    <span class="card-emoji">{post.data.emoji}</span>
+  </div>
+  <div class="blog-card-body">
+    <div class="blog-card-meta">
+      <span class="blog-card-tag">{tag}</span>
+      <time datetime={post.data.pubDate.toISOString()}>
+        {formatDate(post.data.pubDate)}
+      </time>
+    </div>
+    <h3>{post.data.title}</h3>
+    <p class="blog-card-excerpt">{post.data.description}</p>
+    <span class="blog-card-link">Weiterlesen →</span>
+  </div>
+</a>

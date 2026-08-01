@@ -1,0 +1,64 @@
+---
+const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const ratgeber = [
+  { href: base + 'blog/balkon-bepflanzen-anfaenger/', label: 'Für Anfänger' },
+  { href: base + 'blog/beste-balkonpflanzen-sonne/', label: 'Pflanzen für Sonne' },
+  { href: base + 'blog/schattige-balkonbepflanzung/', label: 'Schattige Balkone' },
+  { href: base + 'blog/kraeuter-balkon/', label: 'Kräuter anbauen' },
+  { href: base + 'blog/saisonkalender-balkon/', label: 'Saisonkalender' },
+];
+
+const rechtliches = [
+  { href: base + 'impressum/', label: 'Impressum' },
+  { href: base + 'datenschutz/', label: 'Datenschutz' },
+  { href: base + 'ueber-mich/', label: 'Über mich' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href={base} class="logo" aria-label="Balkon-Bepflanzen.de">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="currentColor" opacity="0.9"/>
+            <path d="M16 14V28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Balkon-Bepflanzen</span>
+        </a>
+        <p>
+          Dein praxisnaher Ratgeber für Balkongärtnerei in Deutschland.
+          Von Anfänger-Tipps bis Profi-Tricks – wir zeigen dir, wie dein Balkon grünt und blüht.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Ratgeber</h3>
+        <ul>
+          {ratgeber.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Rechtliches</h3>
+        <ul>
+          {rechtliches.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {year} Balkon-Bepflanzen.de – Alle Rechte vorbehalten.</p>
+      <ul class="footer-legal">
+        <li><a href={base + "impressum/"}>Impressum</a></li>
+        <li><a href={base + "datenschutz/"}>Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

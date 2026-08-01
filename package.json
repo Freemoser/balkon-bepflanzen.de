@@ -1,7 +1,8 @@
 {
   "name": "balkon-bepflanzen",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Ratgeber für Balkongärtnerei in Deutschland",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -12,6 +13,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.6"
   }
 }

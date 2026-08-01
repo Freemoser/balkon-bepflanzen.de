@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <!-- Einfaches Pflanzenblatt -->
-  <path d="M50 85 C30 70 15 50 20 30 C25 15 40 10 50 20 C55 25 58 32 58 40 C65 35 75 30 82 30 C88 30 90 35 85 42 C78 52 65 60 55 70 C52 75 51 80 50 85 Z"
-        fill="#2D6A4F" />
-  <path d="M50 85 C50 80 49 72 46 65 C42 55 52 40 58 40 C58 32 55 25 50 20"
-        fill="none" stroke="#40916C" stroke-width="1.5" />
-  <line x1="50" y1="85" x2="50" y2="95" stroke="#2D6A4F" stroke-width="3" stroke-linecap="round" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#1b4332"/>
+  <path d="M16 5C16 5 9 11 9 18C9 21.866 12.134 25 16 25C19.866 25 23 21.866 23 18C23 11 16 5 16 5Z" fill="#40916c"/>
+  <path d="M16 14V27" stroke="#d4a373" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 19C12 19 14 21 16 21C18 21 20 19 20 19" stroke="#2d6a4f" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
 </svg>

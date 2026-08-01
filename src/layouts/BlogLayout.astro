@@ -1,0 +1,151 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { formatDate, readingTime, getRelatedPosts, type BlogPost, slugFromId } from '../utils/blog';
+
+interface Props {
+  post: BlogPost;
+  allPosts: BlogPost[];
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { post, allPosts, headings = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, author, tags, emoji } = post.data;
+const minutes = readingTime(post.body || '');
+const related = getRelatedPosts(post, allPosts, 3);
+const siteUrl = Astro.site?.href.replace(/\/$/, '') || 'https://balkon-bepflanzen.de';
+const slug = slugFromId(post.id);
+const articleUrl = `${siteUrl}/blog/${slug}/`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: `${siteUrl}/og-default.svg`,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate || pubDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author,
+    url: `${siteUrl}/ueber-mich/`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Balkon-Bepflanzen.de',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/favicon.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl,
+  },
+  inLanguage: 'de-DE',
+  keywords: tags.join(', '),
+};
+
+const tocHeadings = headings.filter((h) => h.depth === 2).slice(0, 12);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  tags={tags}
+  schema={articleSchema}
+>
+  <Breadcrumbs items={[
+    { label: 'Ratgeber', href: '/blog/' },
+    { label: title },
+  ]} />
+
+  <article>
+    <header class="article-header">
+      <div class="container">
+        <div class="article-meta">
+          {tags[0] && <span class="article-tag">{tags[0]}</span>}
+          <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+          <span class="reading-time">{minutes} Min. Lesezeit</span>
+          <span>Von {author}</span>
+        </div>
+        <h1>{emoji} {title}</h1>
+        <p style="color: var(--color-text-muted); font-size: 1.125rem; max-width: 40rem; margin: 0;">
+          {description}
+        </p>
+      </div>
+    </header>
+
+    <div class="container article-layout">
+      <div class="article-content">
+        <AdSlot slot="header" />
+        <slot />
+        <AdSlot slot="inarticle" />
+
+        <div class="author-box">
+          <div class="author-avatar" aria-hidden="true">LB</div>
+          <div>
+            <h3>{author}</h3>
+            <p>
+              Lisa bepflanzt seit über 10 Jahren Balkone – vom winzigen Nordbalkon bis zur
+              sonnigen Dachterrasse. Auf Balkon-Bepflanzen.de teilt sie praxiserprobte Tipps
+              für Hobbygärtner in Deutschland.
+            </p>
+          </div>
+        </div>
+
+        {related.length > 0 && (
+          <section style="margin-top: var(--space-2xl);">
+            <h2>Das könnte dich auch interessieren</h2>
+            <ul class="related-list">
+              {related.map((r) => (
+                <li>
+                  <a href={`/blog/${slugFromId(r.id)}/`}>
+                    {r.data.emoji} {r.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      <aside class="article-sidebar" aria-label="Seitenleiste">
+        {tocHeadings.length > 2 && (
+          <div class="sidebar-card">
+            <h3>Inhaltsverzeichnis</h3>
+            <nav aria-label="Inhaltsverzeichnis">
+              <ul class="toc-list">
+                {tocHeadings.map((h) => (
+                  <li>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        )}
+        <AdSlot slot="sidebar" />
+        {related.length > 0 && (
+          <div class="sidebar-card">
+            <h3>Weitere Artikel</h3>
+            <ul class="related-list">
+              {related.map((r) => (
+                <li>
+                  <a href={`/blog/${slugFromId(r.id)}/`}>{r.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+  </article>
+
+  <Newsletter />
+</BaseLayout>

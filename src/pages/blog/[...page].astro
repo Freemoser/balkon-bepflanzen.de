@@ -1,0 +1,60 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { getPublishedPosts, type BlogPost } from '../../utils/blog';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishedPosts();
+  return paginate(posts, { pageSize: 9 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<BlogPost>;
+}
+
+const { page } = Astro.props;
+const isFirst = page.currentPage === 1;
+const title = isFirst ? 'Balkon-Ratgeber' : `Balkon-Ratgeber – Seite ${page.currentPage}`;
+const description = isFirst
+  ? 'Alle Ratgeber und Anleitungen zum Balkon bepflanzen: Pflanzenwahl, Pflege, Saisonkalender, Kräuter, Gemüse und mehr – praxisnah für Deutschland.'
+  : `Balkon-Ratgeber Seite ${page.currentPage}: Weitere Tipps und Anleitungen zum Balkon bepflanzen.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={
+    isFirst
+      ? [{ label: 'Ratgeber' }]
+      : [
+          { label: 'Ratgeber', href: '/blog/' },
+          { label: `Seite ${page.currentPage}` },
+        ]
+  } />
+
+  <header class="page-header">
+    <div class="container">
+      <h1>Balkon-Ratgeber</h1>
+      <p>
+        {isFirst
+          ? `Praxisnahe Anleitungen und Tipps für deinen Balkongarten. ${page.total} Artikel – von Anfänger bis Fortgeschritten.`
+          : `Seite ${page.currentPage} von ${page.lastPage}`}
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="blog-grid">
+        {page.data.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+      <Pagination currentPage={page.currentPage} totalPages={page.lastPage} />
+    </div>
+  </section>
+
+  <Newsletter />
+</BaseLayout>

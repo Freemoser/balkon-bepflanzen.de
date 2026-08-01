@@ -1,0 +1,50 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+const siteUrl = Astro.site?.href.replace(/\/$/, '') || 'https://balkon-bepflanzen.de';
+
+const schemaItems = [
+  { label: 'Startseite', href: '/' },
+  ...items,
+].map((item, index) => ({
+  '@type': 'ListItem',
+  position: index + 1,
+  name: item.label,
+  ...(item.href ? { item: new URL(item.href, siteUrl).href } : {}),
+}));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: schemaItems,
+};
+---
+
+<nav class="breadcrumbs" aria-label="Brotkrumen-Navigation">
+  <div class="container">
+    <ol>
+      <li>
+        <a href={import.meta.env.BASE_URL + "/"}>Startseite</a>
+      </li>
+      {items.map((item, i) => (
+        <li>
+          {item.href && i < items.length - 1 ? (
+            <a href={item.href}>{item.label}</a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,0 +1,86 @@
+---
+const pathname = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const nav = [
+  { href: base, label: 'Startseite' },
+  { href: base + 'blog/', label: 'Ratgeber' },
+  { href: base + 'ueber-mich/', label: 'Über mich' },
+];
+
+function isActive(href: string): boolean {
+  if (href === base || href === base.replace(/\/$/, '')) return pathname === base || pathname === base.replace(/\/$/, '');
+  return pathname.startsWith(href.replace(/\/$/, '')) || pathname.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={base} class="logo" aria-label="Balkon-Bepflanzen.de – Startseite">
+      <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="currentColor" opacity="0.9"/>
+        <path d="M16 14V28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 20C12 20 14 22 16 22C18 22 20 20 20 20" stroke="#fafaf7" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <span>Balkon-Bepflanzen</span>
+    </a>
+
+    <nav aria-label="Hauptnavigation">
+      <ul class="nav-desktop">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      id="menu-toggle"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" id="menu-icon-open"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="mobile-nav" aria-label="Mobile Navigation" hidden>
+    <ul>
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('mobile-nav');
+
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    if (nav) nav.hidden = !open;
+  });
+
+  nav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      nav.hidden = true;
+      toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-label', 'Menü öffnen');
+    });
+  });
+</script>
